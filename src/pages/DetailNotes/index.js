@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { IoTrashOutline } from "react-icons/io5";
 import { IoArchiveOutline } from "react-icons/io5";
@@ -15,12 +15,14 @@ import {
 import Card from "../../components/Card";
 import Loading from "../../components/Loading";
 import { getThemeStatus } from "../../utils/functions";
+import { ThemeContext } from "../../context/SearchProvider";
 
 const DetailNotes = () => {
   const { noteId } = useParams();
   const [note, setNote] = useState({});
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const { isDark } = useContext(ThemeContext);
 
   useEffect(() => {
     setIsLoading(true);
@@ -51,13 +53,17 @@ const DetailNotes = () => {
   return (
     <Layout isActiveSearchBar={false}>
       <div>
-        {isLoading ? <Loading /> : <Card note={note} isActiveLink={false} />}
+        {isLoading ? (
+          <Loading />
+        ) : (
+          note && <Card note={note} isActiveLink={false} />
+        )}
 
         <CircleButton
           icon={
             <IoTrashOutline
               size={30}
-              color={getThemeStatus() === "true" ? "black" : "white"}
+              color={getThemeStatus() === "true" || isDark ? "black" : "white"}
             />
           }
           onClicked={removeNoteFromDetailNote}

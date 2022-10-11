@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Layout from "../../components/Layout";
 import { getThemeStatus } from "../../utils/functions";
 import { register } from "../../utils/network-data";
+import { ThemeContext } from "../../context/SearchProvider";
 
 const Register = () => {
   const initialState = {
@@ -16,6 +17,7 @@ const Register = () => {
   const [inputValue, setInputValue] = useState(initialState);
   const [isPasswordNotSame, setIsPasswordNotSame] = useState(false);
   const navigate = useNavigate();
+  const { isDark } = useState(ThemeContext);
 
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
@@ -56,7 +58,9 @@ const Register = () => {
               <label
                 htmlFor="nameInput"
                 className={`form-label ${
-                  getThemeStatus() === "true" && "bg-dark text-light"
+                  getThemeStatus() === "true" || isDark
+                    ? "text-light"
+                    : "text-dark"
                 }`}
               >
                 Name
@@ -64,7 +68,9 @@ const Register = () => {
               <input
                 type="text"
                 className={`form-control ${
-                  getThemeStatus() === "true" && "bg-dark text-light"
+                  getThemeStatus() === "true" || isDark
+                    ? "bg-dark text-light"
+                    : "bg-light text-dark"
                 }`}
                 id="nameInput"
                 aria-describedby="emailHelp"
@@ -79,7 +85,9 @@ const Register = () => {
               <label
                 htmlFor="emailInput"
                 className={`form-label ${
-                  getThemeStatus() === "true" && "bg-dark text-light"
+                  getThemeStatus() === "true" || isDark
+                    ? "text-light"
+                    : "text-dark"
                 }`}
               >
                 Email
@@ -87,7 +95,9 @@ const Register = () => {
               <input
                 type="email"
                 className={`form-control ${
-                  getThemeStatus() === "true" && "bg-dark text-light"
+                  getThemeStatus() === "true" || isDark
+                    ? "bg-dark text-light"
+                    : "bg-light text-dark"
                 }`}
                 id="emailInput"
                 aria-describedby="emailHelp"
@@ -102,7 +112,9 @@ const Register = () => {
               <label
                 htmlFor="passwordInput"
                 className={`form-label ${
-                  getThemeStatus() === "true" && "bg-dark text-light"
+                  getThemeStatus() === "true" || isDark
+                    ? "text-light"
+                    : "text-dark"
                 }`}
               >
                 Password
@@ -110,7 +122,9 @@ const Register = () => {
               <input
                 type="password"
                 className={`form-control ${
-                  getThemeStatus() === "true" && "bg-dark text-light"
+                  getThemeStatus() === "true" || isDark
+                    ? "bg-dark text-light"
+                    : "bg-light text-dark"
                 } ${isPasswordNotSame && "form-control-error"}`}
                 id="passwordInput"
                 name="password"
@@ -129,7 +143,8 @@ const Register = () => {
               <label
                 htmlFor="confirmPassword"
                 className={`form-label ${
-                  getThemeStatus() === "true" && "bg-dark text-light"
+                  getThemeStatus() === "true" ||
+                  (isDark && "bg-dark text-light")
                 }`}
               >
                 Confirm Password
@@ -137,7 +152,9 @@ const Register = () => {
               <input
                 type="password"
                 className={`form-control ${
-                  getThemeStatus() === "true" && "bg-dark text-light"
+                  getThemeStatus() === "true" || isDark
+                    ? "bg-dark text-light"
+                    : "bg-light text-dark"
                 } ${isPasswordNotSame && "form-control-error"}`}
                 id="confirmPassword"
                 name="confirmPassword"
@@ -155,14 +172,20 @@ const Register = () => {
             <button
               type="submit"
               className={`btn ${
-                getThemeStatus() === "true" ? "btn-light" : "btn-dark"
+                getThemeStatus() === "true" || isDark ? "btn-light" : "btn-dark"
               }`}
             >
               Register
             </button>
           </form>
           <div className="mt-3">
-            <span className={getThemeStatus() === "true" && "text-light"}>
+            <span
+              className={
+                getThemeStatus() === "true" || isDark
+                  ? "text-light"
+                  : "text-dark"
+              }
+            >
               Already have an account? <Link to="/login">Login Here</Link>
             </span>
           </div>

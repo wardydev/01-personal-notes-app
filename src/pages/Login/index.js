@@ -9,6 +9,7 @@ import {
   login,
   putAccessToken,
 } from "../../utils/network-data";
+import { ThemeContext } from "../../context/SearchProvider";
 
 const Login = () => {
   const initialState = {
@@ -18,6 +19,7 @@ const Login = () => {
   const [inputValue, setInputValue] = useState(initialState);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const { isDark } = useState(ThemeContext);
 
   const handleSubmitLogin = async (e) => {
     e.preventDefault();
@@ -55,9 +57,9 @@ const Login = () => {
               <label
                 htmlFor="exampleInputEmail1"
                 className={`form-label ${
-                  getThemeStatus() === "true"
-                    ? "bg-dark text-light"
-                    : "bg-light text-dark"
+                  getThemeStatus() === "true" || isDark
+                    ? "text-light"
+                    : "text-dark"
                 }`}
               >
                 Email
@@ -65,9 +67,9 @@ const Login = () => {
               <input
                 type="email"
                 className={`form-control ${
-                  getThemeStatus() === "true"
+                  getThemeStatus() === "true" || isDark
                     ? "bg-dark text-light"
-                    : "bg-dark text-light"
+                    : "bg-light text-dark"
                 }`}
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
@@ -81,7 +83,9 @@ const Login = () => {
               <label
                 htmlFor="exampleInputPassword1"
                 className={`form-label ${
-                  getThemeStatus() === "true" && "bg-dark text-light"
+                  getThemeStatus() === "true" || isDark
+                    ? "text-light"
+                    : "text-dark"
                 }`}
               >
                 Password
@@ -89,7 +93,9 @@ const Login = () => {
               <input
                 type="password"
                 className={`form-control ${
-                  getThemeStatus() === "true" && "bg-dark text-light"
+                  getThemeStatus() === "true" || isDark
+                    ? "bg-dark text-light"
+                    : "bg-light text-dark"
                 }`}
                 id="exampleInputPassword1"
                 name="password"
@@ -101,7 +107,7 @@ const Login = () => {
             <button
               type="submit"
               className={`btn ${
-                getThemeStatus() === "true" ? "btn-light" : "btn-dark"
+                getThemeStatus() === "true" || isDark ? "btn-light" : "btn-dark"
               }`}
             >
               {isLoading ? (
@@ -114,7 +120,13 @@ const Login = () => {
             </button>
           </form>
           <div className="mt-3">
-            <span className={getThemeStatus() === "true" && "text-light"}>
+            <span
+              className={
+                getThemeStatus() === "true" || isDark
+                  ? "text-light"
+                  : "text-dark"
+              }
+            >
               Have'nt an account yet? <Link to="/register">Register Here</Link>{" "}
             </span>
           </div>

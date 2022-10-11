@@ -104,7 +104,7 @@ const Navbar = () => {
             </ul>
           ) : (
             <ul className="navbar-nav ms-auto">
-              {isDark ? (
+              {getThemeStatus() === "true" ? (
                 <li className="nav-item custom-nav-item">
                   <div className="nav-link" onClick={handleThemeChanges}>
                     <IoSunny size={30} color="yellow" />
