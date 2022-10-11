@@ -1,0 +1,29 @@
+::-webkit-scrollbar {
+    display: none;
+  }
+
+.btn-circle {
+    color: white;
+    width: 65px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    position: fixed;
+    bottom: 80px;
+    right: 120px;
+    cursor: pointer;
+}
+.form-control-error {
+  border-color: #FF0000;
+}
+.custom-nav-item {
+  cursor: pointer;
+}
+.wrapper {
+  min-height: 100vh;
+}
+.custom-password-form {
+  background-color: red !important;
+}
