@@ -8,7 +8,7 @@ const SearchProvider = ({ children }) => {
   const [searchValue, setSearchValue] = useState("");
   const [isDark, setIsDark] = useState(false);
   return (
-    <SearchContext.Provider value={{ searchValue }}>
+    <SearchContext.Provider value={{ searchValue, setSearchValue }}>
       <ThemeContext.Provider value={{ isDark, setIsDark }}>
         {children}
       </ThemeContext.Provider>

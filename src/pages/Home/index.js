@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { IoAddSharp } from "react-icons/io5";
-import { useNavigate, useSearchParams, Navigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 
 import Card from "../../components/Card";
 import CircleButton from "../../components/CircleButton";
@@ -16,8 +16,6 @@ const Home = ({ heading }) => {
   const [activeNotes, setActiveNotes] = useState([]);
   const navigate = useNavigate();
   const { searchValue } = useContext(SearchContext);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const keyword = searchParams.get("keyword") || "";
   const [isLoading, setIsLoading] = useState(false);
 
   const handleAddNotesClick = () => {
@@ -38,7 +36,7 @@ const Home = ({ heading }) => {
 
   const filteredNotes = (notes) => {
     if (searchValue) {
-      const valueLowerCase = keyword.toLowerCase();
+      const valueLowerCase = searchValue.toLowerCase();
       const filteredNotes = notes.filter((note) => {
         return (
           note.title.toLowerCase().includes(valueLowerCase) ||
@@ -51,16 +49,7 @@ const Home = ({ heading }) => {
     }
   };
 
-  const searchParamsCheck = () => {
-    if (searchValue) {
-      setSearchParams({ keyword: searchValue });
-    } else {
-      setSearchParams({});
-    }
-  };
-
   useEffect(() => {
-    searchParamsCheck();
     getActiveNotesData();
   }, [searchValue]);
 

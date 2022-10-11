@@ -1,10 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useSearchParams } from "react-router-dom";
 
 import Card from "../../components/Card";
 import Layout from "../../components/Layout";
-// import { getArchivedNotes } from "../../utils/local-data";
-import { SearchContext } from "../../context/SearchProvider";
+import SearchProvider, { SearchContext } from "../../context/SearchProvider";
 import Alert from "../../components/Alert";
 import { getArchivedNotes } from "../../utils/network-data";
 import { PropTypes } from "prop-types";
@@ -12,23 +10,39 @@ import Loading from "../../components/Loading";
 
 const Archive = ({ heading }) => {
   const [archiveNotes, setArchiveNotes] = useState([]);
-  const { searchValue } = useContext(SearchContext);
-  let [searchParams, setSearchParams] = useSearchParams();
-  const keyword = searchParams.get("keyword") || "";
   const [isLoading, setIsLoading] = useState(false);
+  const { searchValue } = useContext(SearchContext);
 
-  useEffect(() => {
+  const getArchiveNotesData = async () => {
     setIsLoading(true);
     try {
       setIsLoading(false);
-      getArchivedNotes().then((data) => {
-        return setArchiveNotes(data.data);
-      });
+      const notes = await getArchivedNotes();
+      filterDataBySearch(notes.data);
     } catch (err) {
       setIsLoading(false);
       console.log(err);
     }
-  }, []);
+  };
+
+  useEffect(() => {
+    getArchiveNotesData();
+  }, [searchValue]);
+
+  const filterDataBySearch = (notes) => {
+    if (searchValue) {
+      const valueLowerCase = searchValue.toLowerCase();
+      const filtered = notes.filter((note) => {
+        return (
+          note.title.toLowerCase().includes(valueLowerCase) ||
+          note.body.toLowerCase().includes(valueLowerCase)
+        );
+      });
+      setArchiveNotes(filtered);
+    } else {
+      setArchiveNotes(notes);
+    }
+  };
 
   return (
     <Layout isActiveSearchBar={true}>
